@@ -1,0 +1,66 @@
+page {
+	background-color: #FFDAB9;
+}
+.messages {
+	display: flex;
+	flex-direction: column;
+}
+
+.messages .title {
+  padding-top: 20rpx;
+  padding-left: 10rpx;
+  padding-bottom: 20rpx;
+  font-size: 40rpx;
+  background-color: #F4A460
+}
+
+.messages .message {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10rpx;
+  border-top: 1rpx solid #F4A460;
+	background-color: #FFDAB9;
+}
+
+.messages .message image {
+	width: 120rpx;
+	height: 120rpx;
+	margin: 10rpx;
+}
+
+.messages .message .messageDetail {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	margin-top: 10rpx;
+	margin-left: 20rpx;
+}
+
+.messages .message .messageDetail .groupName text {
+	font-size: 30rpx;
+	color: #000;
+}
+
+.messages .message .messageDetail .groupMessage text {
+	font-size: 25rpx;
+	color: #888;
+}
+
+.messages .message .messageTime {
+	margin-top: 10rpx;
+	margin-right: 50rpx;
+}
+
+.messages .message .messageTime text {
+	font-size: 20rpx;
+	color: #888;
+}
+
+.messages .nomessage {
+  width: 100%;
+  height: 300rpx;
+  text-align: center;
+  padding-top: 50rpx;
+  color: #888;
+}
+

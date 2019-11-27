@@ -1,0 +1,43 @@
+<view class="title">
+	<text>失踪儿童信息</text>
+</view>
+<view class="kid">
+	<view class="profile">
+		<image src="{{ photo }}" mode= "aspectFill"></image>
+		<view class="info">
+			<view class="name">
+				<text>姓名：</text>
+				<text>{{ name }}</text>
+			</view>
+			<view class="gender">
+				<text>性别：</text>
+				<text>{{ gender }}</text>
+			</view>
+			<view class="age">
+				<text>年龄：</text>
+				<text>{{ age }}岁</text>
+			</view>
+		</view>
+	</view>
+	<view class="currentClue">
+    <view class="clue">
+      <text>{{ lostclue }}</text>
+    </view>
+		<view class="edit" wx:if= "{{ category == '1' }}">
+      <image src="/assets/tabs/edit.png" bindtap="editHandle"></image>
+    </view>
+	</view>
+</view>
+<view class="title">
+	<text>失踪儿童亲属关系</text>
+</view>
+<view class="relations">
+	<view class="relation" wx:for= "{{ families }}">
+		<image src= "{{ item.photo }}" mode= "aspectFill"></image>
+		<text>{{ item.relation }}</text>
+	</view>
+</view>
+<view class="offerClue" wx:if="{{ category != '1' }}">
+	<text>识别可疑人身份</text>
+	<image src= "/assets/tabs/scanning.png"></image>
+</view>

@@ -1,0 +1,51 @@
+<view class="messages" wx:if= "{{ selfislost }}">
+  <view class="title">
+    自寻
+  </view>
+	<view class="message" 
+  bindtap="editHandle" 
+  wx:for= "{{ mykids }}" 
+  data-index= "{{ index }}" >
+
+		<image src= "{{ item.photo }}" mode="aspectFill"></image>
+		<view class="messageDetail">
+			<view class="groupName">
+				<text>{{ item.name }}</text>
+			</view>
+      <view class="groupMessage">
+				<text>点击以查看/编辑</text>
+			</view>
+		</view>
+
+	</view>
+</view>
+
+<view class="messages">
+  <view class="title">
+    帮寻
+  </view>
+	<view class="message" 
+  bindtap="viewHandle" 
+  wx:for= "{{ otherskids }}" 
+  wx:if= "{{ othersisLost }}" 
+  data-index="{{ index }}">
+
+		<image src= "{{ item.photo }}" mode="aspectFill"></image>
+		<view class="messageDetail">
+			<view class="groupName">
+				<text>{{ item.address }}{{ item.age }}岁{{item.gender}}童{{ item.name }}</text>
+			</view>
+			<view class="groupMessage">
+				<text>失踪，紧急寻找！！！！</text>
+			</view>
+		</view>
+		<view class="messageTime">
+			<text></text>
+		</view>
+
+	</view>
+  <view class="nomessage" wx:if= "{{ !othersisLost }}">
+    没有失踪的儿童
+  </view>
+
+</view>

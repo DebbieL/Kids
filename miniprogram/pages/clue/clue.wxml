@@ -1,0 +1,16 @@
+<view class= "title">提供失踪儿童信息</view>
+<view class="content">
+  <textarea type="text"  
+  placeholder="请尽可能详细地描述您的孩子失踪时体型及外貌特点……" 
+  value="{{ inputClue }}"
+  bindinput="inputClueHandle"></textarea>
+</view>
+<view class="submit">
+  <button bindtap="isSave">保存</button>
+  <button bindtap="clearAll">清空</button>
+</view>
+<view class="back" wx:if="{{ isSave }}">
+  <view class="content">保存成功，返回，以查看线索</view>
+  <button bindtap="backHandle">确认</button>
+</view>
+

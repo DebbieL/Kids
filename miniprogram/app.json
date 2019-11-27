@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/relation/relation",
+    "pages/message/message",
+    "pages/detail/detail",
+    "pages/clue/clue"
+  ],
+ "window": {
+  "navigationBarBackgroundColor": "#CD853F",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "丘儿君",
+  "backgroundColor": "#bcc0c9",
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": false
+},
+"tabBar": {
+  "color": "#999",
+  "selectedColor": "#8B4513",
+  "backgroundColor": "#F4A460",
+  "borderStyle": "black",
+  "list": [
+    {
+      "pagePath": "pages/relation/relation",
+      "text": "家庭关系",
+      "iconPath": "assets/tabs/home.png",
+      "selectedIconPath": "assets/tabs/home-active.png"
+    },
+    {
+      "pagePath": "pages/message/message",
+      "text": "系统消息",
+      "iconPath": "assets/tabs/message.png",
+      "selectedIconPath": "assets/tabs/message-active.png"
+    }
+  ]
+},
+"sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

@@ -1,0 +1,108 @@
+page {
+  background-color: #FFDAB9;
+}
+
+.title {
+	margin: 10rpx;
+}
+
+.kid {
+	display: flex;
+	flex-direction: row;
+	margin: 20rpx;
+	border: 1rpx solid #F4A460;
+	border-radius: 5rpx;
+	box-shadow: 0 0 5rpx #F4A460;
+}
+
+.kid .profile {
+  flex:1;
+	display: flex;
+	flex-direction: column;
+}
+
+.kid .profile image {
+	margin: 10rpx;
+	width: 150rpx;
+	height: 150rpx;
+}
+
+.kid .profile .info {
+	margin-top: 10rpx;
+}
+
+.kid .profile .info text {
+	font-size: 25rpx;
+	color: #888;
+}
+
+.kid .currentClue {
+	display: flex;
+  flex-direction: column;
+}
+
+.kid .currentClue .clue {
+  margin-top: 10rpx;
+  margin-left: 10rpx;
+}
+
+.kid .currentClue .clue text {
+  font-size: 28rpx;
+}
+
+.kid .currentClue .edit {
+  position: relative;
+}
+
+.kid .currentClue .edit image {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  right: 10rpx;
+}
+
+
+.relations {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: #FFDAB9;
+	border-left: 1rpx solid #F4A460;
+	border-bottom: 1rpx solid #F4A460;
+	color: #888;
+	font-size: 28rpx;
+}
+
+.relations .relation {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 33.33333333%;
+	height: 250rpx;
+	border-right: 1rpx solid #F4A460;
+	border-top: 1rpx solid #F4A460;
+	box-sizing:border-box;
+}
+
+.relations .relation image {
+	width: 120rpx;
+	height: 120rpx;
+}
+
+.relations .relation text {
+	margin-top: 20rpx;
+	display: block;
+}
+
+.offerClue {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 10rpx;
+}
+
+.offerClue image {
+	margin-left: 20rpx;
+	width: 80rpx;
+	height: 80rpx;
+}

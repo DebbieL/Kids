@@ -1,0 +1,60 @@
+page {
+  background-color: #FFDAB9;
+}
+
+.title {
+  margin-top: 20rpx;
+  margin-left: 10rpx;
+}
+
+.content textarea {
+  width: 90%;
+  height: 500rpx;
+  margin: 20rpx;
+	padding: 20rpx;
+	border: 1rpx solid #F4A460;
+	border-radius: 5rpx;
+	box-shadow: 0 0 5rpx #F4A460;
+}
+
+.submit {
+  display: flex;
+  flex-direction: row;
+}
+
+.submit button {
+  width: 33.3%;
+  background-color: #F4A460;
+}
+
+.back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 200rpx;
+  position: fixed;
+  margin-top: 100rpx;
+  margin-left: 80rpx;
+  background: rgba(0, 0, 0, 0.5);
+	color: white;
+	font-size: 32rpx;
+}
+
+.back .content {
+  margin-top: 20rpx;
+}
+
+.back button {
+  margin-top: 40rpx;
+  width: 150rpx;
+  font-size: 25rpx;
+   vertical-align: middle;
+  text-align: center;
+  line-height: 23px;
+  background: rgba(228, 170, 62, 0.568);
+	color: white;
+}
+
+
+

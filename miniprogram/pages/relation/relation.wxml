@@ -1,0 +1,159 @@
+<view class="warn" wx:if="{{ changeStatus && !isLost }}">
+  <view class="title">
+    <image src="/assets/tabs/warn.png"></image>
+  </view>
+  <view class="content">
+    <view class="mainMessage">确定设置孩子状态为“失踪”</view>
+    <view class="viceMessage">若确定，您的家庭相关信息将推送给附近的人，以互助寻人。请谨慎选择！</view>
+    <view class="submit">
+      <navigator class="submit-Y"  bindtap="change" url= "/pages/clue/clue?_id={{ _id }}">是</navigator>
+      <view class="submit-N" bindtap="notChange">否</view>
+    </view>
+  </view>
+</view>
+
+<view class="warn" wx:if= "{{ changeStatus && isLost }}">
+  <view class="title">
+    <image src="/assets/tabs/warn.png"></image>
+  </view>
+  <view class="content">
+    <view class="mainMessage">确定孩子已经寻回？</view>
+    <view class="viceMessage">若确定，将不再互助寻回。请谨慎选择！</view>
+    <view class="submit">
+      <view class="submit-Y" bindtap="change">是</view>
+      <view class="submit-N" bindtap="notChange">否</view>
+    </view>
+  </view>
+</view>
+
+<view class="role">
+	<text>孩子</text>
+  <image src="/assets/tabs/plus.png" bindtap="isPlusChild"></image>
+</view>
+
+<view class="children">
+	<view class="child" wx:for= "{{ kids }}" data-index="{{ index }}">
+		<view class="photo">
+			<image src="{{ item.photo }}" mode="aspectFill"></image>
+		</view>
+		<view class="info">
+			<view class="item">
+				<view class="title">
+					<text>姓名：</text>
+				</view>
+				<view class="content">
+					<text>{{ item.name }}</text>
+				</view>
+			</view>
+			<view class="item">
+				<view class="title">
+					<text>性别：</text>
+				</view>
+				<view class="content">
+					<text>{{ item.gender }}</text>
+				</view>
+			</view>
+			<view class="item">
+				<view class="title">
+					<text>年龄：</text>
+				</view>
+				<view class="content">
+					<text>{{ item.age }}岁</text>
+				</view>
+			</view>				
+		</view>	
+		<view class="status_abnormal" wx:if= "{{ item.isLost }}">
+			<text bindtap="changeStatus" data-index="{{ index }}">失踪</text>
+		</view>
+		<view class="status_normal" wx:else>
+			<text bindtap="changeStatus" data-index="{{ index }}">正常</text>
+		</view>
+	</view>
+</view>
+
+<view class="plus" wx:if= "{{ isPlusChild }}">
+	<view class="title">
+		<image src="/assets/tabs/plus.png"></image>
+		<text>添加孩子</text>
+		<button bindtap= "addChildHandle">添加</button>
+		<button bindtap= "clearAllHandle">清空</button>
+	</view>
+	<view class="content">
+		<view class="photo">
+			<text>照片</text>
+			<image src="{{ photoPath }}" mode="aspectFill" bindtap= "addPhotoHandle"></image>
+		</view>
+		<view class="info">
+			<view class="item">
+				<view class="title">
+					<text>姓名</text>
+				</view>
+				<view class="content">
+					<input type="text"  placeholder="请输入孩子的名字或昵称……" value="{{ inputName }}" bindchange ="inputNameHandle"/>
+				</view>
+			</view>
+			<view class="item">
+				<view class="title">
+					<text>性别</text>
+				</view>
+				<view class="content">
+					<input type="text"  placeholder="请输入孩子的真实性别……" value="{{ inputGender }}" bindchange ="inputGenderHandle"/>
+				</view>
+			</view>
+			<view class="item">
+				<view class="title">
+					<text>年龄</text>
+				</view>
+				<view class="content">
+					<input type="text"  placeholder="请输入孩子的实际年龄……" value="{{ inputAge }}" bindchange ="inputAgeHandle"/>
+				</view>
+			</view>	
+		</view>
+	</view>
+</view>
+
+<view class="role">
+	<text>主要家庭成员</text>
+  <image src="/assets/tabs/plus.png" bindtap="isPlusAdult"></image>
+</view>
+
+<view class="relations">
+	<view class="relation" wx:for= "{{ families }}">
+		<view class="photo">
+			<image src="{{ item.photo }}" mode="aspectFill"></image>
+		</view>
+		<view class="info">
+			<view class="title">
+				<text>关系：</text>
+			</view>
+			<view class="content">
+				<text>{{ item.relation }}</text>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view class="plus" wx:if= "{{ isPlusAdult }}">
+	<view class="title">
+		<image src="/assets/tabs/plus.png"></image>
+		<text>添加关系</text>	
+		<button bindtap= "addAdultHandle">添加</button>
+		<button bindtap= "clearAllHandle">清空</button>
+	</view>
+	<view class="content">
+		<view class="photo">
+			<text>照片</text>
+			<image src="{{ photoPath }}" mode="aspectFill" bindtap= "addPhotoHandle"></image>
+		</view>
+		<view class="info">
+			<view class="item">
+				<view class="title">
+					<text>关系</text>
+				</view>
+				<view class="content">
+					<input type="text"  placeholder="请输入与孩子的关系……" value="{{ inputRelation }}" bindchange ="inputRelationHandle"/>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
