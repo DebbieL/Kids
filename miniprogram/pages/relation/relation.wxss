@@ -2,58 +2,6 @@ page {
   background-color: #FFDAB9;
 }
 
-.warn {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  position: fixed;
-  margin-top: 350rpx;
-  margin-left: 30rpx;
-  margin-right: 30rpx;
-  background: rgba(0, 0, 0, 0.7);
-	color: white;
-	font-size: 32rpx;
-}
-.warn .title {
-  background: rgba(180, 107, 23, 0.7);
-}
-
-.warn .content {
-  display: flex;
-  flex-direction: column;
-}
-
-.warn .content .mainMessage {
-  font-size: 40rpx;
-  text-align: center;
-}
-
-.warn .content .viceMessage {
-  font-size: 25rpx;
-  text-align: center;
-}
-
-.warn .content .submit {
-  display: flex;
-  flex-direction: row;
-}
-
-.warn .content .submit .submit-Y {
-  margin-left: 50rpx;
-  flex: 1;
-}
-
-.warn .content .submit .submit-N {
-  margin-right: 50rpx;
-}
-
-.warn .title image {
-  width: 80rpx;
-  height: 80rpx;
-}
-
-
-
 .role {
 	display: flex;
   flex-direction: row;

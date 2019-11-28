@@ -38,6 +38,41 @@
 	</view>
 </view>
 <view class="offerClue" wx:if="{{ category != '1' }}">
-	<text>识别可疑人身份</text>
-	<image src= "/assets/tabs/scanning.png"></image>
+
+  <view class="title">
+    <text>AI人脸识别辅助</text>
+	  <image src= "/assets/tabs/scanning.png"></image>
+  </view>
+	
+  <view class="chooseLocal">
+    <text>请上传一张失踪儿童近期照片</text>
+    <image src="{{ localPhoto }}" bindtap="uploadPhoto" mode="aspectFill"></image>
+  </view>
+
+  <view class="takePhoto">
+    <text>请对疑似失踪的儿童拍照</text>
+    <image src="{{ takePhoto1 }}" bindtap="takePhoto1" mode="aspectFill"></image>
+  </view>
+
+  <view class="showScore" wx:if= "{{ isShowScore }}">
+    <text>人脸相似度打分：</text>
+    <text class="score" wx:if= "{{ score == 0 }}" bindtap="faceAIHandle">打分</text>
+    <text class="score" wx:else>{{ score }}</text>
+  </view>
+
+  <view class="takePhoto" wx:if= "{{ score >= 70 }}">
+    <text>所拍摄儿童有大概率为失踪儿童，请对随行人拍照，识别身份</text>
+    <image src="{{ takePhoto2 }}" bindtap="takePhoto2" mode="aspectFill"></image>
+  </view>
+
+  <view class="showScore" wx:if= "{{ score >= 70 }}">
+    <text>分析身份：</text>
+    <text class="score"></text>
+  </view>
+  
+
+  <view class="help" wx:if= "{{ score >= 70 }}">
+    <text>您提供的线索有效，请致电失踪儿童家长，以告知线索！联系方式：</text>
+  </view>
+
 </view>

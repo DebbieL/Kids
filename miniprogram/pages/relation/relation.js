@@ -22,6 +22,8 @@ Page({
     inputAge: '',
     isLost: false,
     address:'',
+    latitude:'',
+    longitude:'',
     isDeleteChild: false,
     isDeleteAdult: false,
     families:[],
@@ -57,6 +59,7 @@ Page({
         var latitude = res.latitude//维度
         var longitude = res.longitude//经度
         console.log(res);
+        that.setData({ latitude: latitude, longitude: longitude })
         that.loadCity(latitude, longitude);
       }
     })
@@ -129,6 +132,8 @@ Page({
             kid_name: that.data.inputName,
             kid_gender: that.data.inputGender,
             kid_age: that.data.inputAge,
+            kid_latitude: that.data.latitude,
+            kid_longitude: that.data.longitude,
             isLost: false,
             address: that.data.address,
             lostClue: ''
@@ -277,9 +282,6 @@ Page({
   notDeleteAdultHandle: function () {
     this.setData({ isDeleteAdult: false })
   },
-
-
-
   
 
   /**

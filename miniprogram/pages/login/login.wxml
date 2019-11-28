@@ -1,4 +1,6 @@
 <!--index.wxml-->
+<image class="background" src="/assets/images/background.jpg" mode="widthFix"></image>
+
 <view class="container">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 点击以登录 </button>
