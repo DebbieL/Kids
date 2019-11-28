@@ -26,6 +26,34 @@
   </view>
 </view>
 
+<view class="warn" wx:if= "{{ isDeleteChild }}">
+  <view class="title">
+    <image src="/assets/tabs/warn.png"></image>
+  </view>
+  <view class="content">
+    <view class="mainMessage">确定将此孩子移除</view>
+    <view class="viceMessage">若确定，此孩子所有信息将会被清除！！</view>
+    <view class="submit">
+      <view class="submit-Y" bindtap="deleteChildHandle">是</view>
+      <view class="submit-N" bindtap="notDeleteChildHandle">否</view>
+    </view>
+  </view>
+</view>
+
+<view class="warn" wx:if= "{{ isDeleteAdult }}">
+  <view class="title">
+    <image src="/assets/tabs/warn.png"></image>
+  </view>
+  <view class="content">
+    <view class="mainMessage">确定将此亲属移除</view>
+    <view class="viceMessage">若确定，此亲属所有信息将会被清除！！</view>
+    <view class="submit">
+      <view class="submit-Y" bindtap="deleteAdultHandle">是</view>
+      <view class="submit-N" bindtap="notDeleteAdultHandle">否</view>
+    </view>
+  </view>
+</view>
+
 <view class="role">
 	<text>孩子</text>
   <image src="/assets/tabs/plus.png" bindtap="isPlusChild"></image>
@@ -68,15 +96,23 @@
 		<view class="status_normal" wx:else>
 			<text bindtap="changeStatus" data-index="{{ index }}">正常</text>
 		</view>
+    <view class="clear">
+        <image src="/assets/tabs/delete.png" bindtap="isDeleteChildHandle" data-index="{{ index }}"></image>
+      </view>
 	</view>
 </view>
 
-<view class="plus" wx:if= "{{ isPlusChild }}">
-	<view class="title">
-		<image src="/assets/tabs/plus.png"></image>
-		<text>添加孩子</text>
-		<button bindtap= "addChildHandle">添加</button>
-		<button bindtap= "clearAllHandle">清空</button>
+<view class="plus" wx:if= "{{ isPlusChild }}" >
+	<view class="header">
+    <view class="title">
+      <image src="/assets/tabs/plus.png"></image>
+      <text>添加孩子</text>	
+    </view>
+		<view class="submit">
+      <text bindtap= "addChildHandle">添加</text>
+      <text bindtap= "clearAllHandle">清空</text>
+      <text bindtap= "back1Handle">取消</text>
+    </view>
 	</view>
 	<view class="content">
 		<view class="photo">
@@ -129,17 +165,26 @@
 			<view class="content">
 				<text>{{ item.relation }}</text>
 			</view>
+      <view class="clear">
+        <image src="/assets/tabs/delete.png" bindtap="isDeleteAdultHandle" data-index="{{ index }}"></image>
+      </view>
 		</view>
 	</view>
 </view>
 
 <view class="plus" wx:if= "{{ isPlusAdult }}">
-	<view class="title">
-		<image src="/assets/tabs/plus.png"></image>
-		<text>添加关系</text>	
-		<button bindtap= "addAdultHandle">添加</button>
-		<button bindtap= "clearAllHandle">清空</button>
+	<view class="header">
+    <view class="title">
+      <image src="/assets/tabs/plus.png"></image>
+      <text>添加关系</text>	
+    </view>
+		<view class="submit">
+      <text bindtap= "addAdultHandle">添加</text>
+      <text bindtap= "clearAllHandle">清空</text>
+      <text bindtap= "back2Handle">取消</text>
+    </view>
 	</view>
+
 	<view class="content">
 		<view class="photo">
 			<text>照片</text>

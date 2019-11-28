@@ -52,6 +52,8 @@ page {
   height: 80rpx;
 }
 
+
+
 .role {
 	display: flex;
   flex-direction: row;
@@ -127,6 +129,12 @@ page {
 	color: #ff0000;
 }
 
+.children .child .clear image{
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 20rpx;
+}
+
 .plus {
 	position: fixed;
 	top: 0;
@@ -138,7 +146,7 @@ page {
 	font-size: 32rpx;
 }
 
-.plus .title {
+.plus .header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -146,23 +154,37 @@ page {
 	height:100rpx;
 }
 
-.plus .title image {
+.plus .header .title {
+  flex:1;
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.plus .header .title image {
 	width: 40rpx;
 	height: 40rpx;
 }
 
-.plus .title text {
-	flex: 1;
-	margin-left: 10rpx;
-}
-
-.plus .title button {
-	width: 150rpx;
-	height: 80rpx;
+.plus .header .title text {
   vertical-align: middle;
   text-align: center;
   line-height: 23px;
-	margin-right: 10rpx;
+	margin-left: 10rpx;
+}
+
+.plus .header .submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  width: 33.3%;
+}
+
+.plus .header .submit text {
+	height: 25rpx;
+  width: 33.3%;
+  text-align: center;
 	font-size: 25rpx;
   color: white;
   background-color:transparent;
@@ -233,6 +255,7 @@ page {
 }
 
 .relations .relation .info {
+  flex:1;
 	display: flex;
 	flex-direction: row;
 	margin-left: 30rpx;
@@ -245,3 +268,15 @@ page {
 .relations .relation .content text {
 	font-size: 28rpx;
 }
+
+.relations .relation .clear {
+  flex:1;
+}
+
+.relations .relation .clear image {
+  width: 50rpx;
+  height: 50rpx;
+  float: right;
+  margin-right: 20rpx;
+}
+

@@ -1,4 +1,11 @@
 // pages/relation/relation.js
+var amapFile = require('../../libs/amap-wx.js');
+var markersData = {
+  latitude: '',//纬度
+  longitude: '',//经度
+  key: "9932feb0dbd3ac4d28cd35d1a212acf0"//申请的高德地图key
+};
+
 const app = getApp()
 
 Page({
@@ -9,11 +16,14 @@ Page({
   data: {
     //存放孩子
     kids: [],
-    photoPath: '/assets/tabs/avatar.png',
+    photoPath: '/assets/tabs/avatar.png',//临时路径
     inputName: '',
     inputGender: '',
     inputAge: '',
     isLost: false,
+    address:'',
+    isDeleteChild: false,
+    isDeleteAdult: false,
     families:[],
     inputRelation: '',
     isPlusChild: false,
@@ -23,22 +33,35 @@ Page({
     _id:''
   },
 
-
-  //获取openid
-  onGetOpenid: function () {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        app.globalData.openid = res.result.openid
-        console.log(app.globalData.openid)
+   //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
+  loadCity: function (latitude, longitude) {
+    var that = this
+    var myAmapFun = new amapFile.AMapWX({ key: markersData.key })
+    myAmapFun.getRegeo({
+      location: '' + longitude + ',' + latitude + '',//location的格式为'经度,纬度'
+      success: function (data) {
+        console.log(data);
+        const currentLocation = data[0].desc
+        that.setData({ address: currentLocation })
       },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
+      fail: function (info) { }
+    })
+  },
+
+  //获取当前位置的经纬度
+  loadInfo: function () {
+    var that = this;
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success: function (res) {
+        var latitude = res.latitude//维度
+        var longitude = res.longitude//经度
+        console.log(res);
+        that.loadCity(latitude, longitude);
       }
     })
   },
+
 
   isPlusChild: function () {
     this.setData({isPlusChild: true})
@@ -57,12 +80,20 @@ Page({
       sourceType: ['album', 'camera'],
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
-        const tempFilePaths = res.tempFilePaths
+        const tempFilePaths = res.tempFilePaths[0]
         that.setData({ photoPath: tempFilePaths })
       }
     })
-
   },
+
+  back1Handle: function () {
+    this.setData({ isPlusChild: false })
+  },
+
+  back2Handle: function () {
+    this.setData({ isPlusAdult: false })
+  },
+
 
   inputNameHandle: function (e) {
     this.setData({ inputName: e.detail.value })
@@ -79,21 +110,41 @@ Page({
 //增加孩子
   addChildHandle: function () {
     if (this.data.photoPath == '/assets/tabs/avatar.png' || !this.data.inputName || !this.data.inputGender || !this.data.inputAge) return
-    const db = wx.cloud.database() 
+    //将照片上传到云存储
+
     const that = this
-    db.collection('kids').add({
-      // data 字段表示需新增的 JSON 数据
-      data: {
-        kid_photo: that.data.photoPath,
-        kid_name: that.data.inputName,
-        kid_gender: that.data.inputGender,
-        kid_age: that.data.inputAge,
-        isLost: false,
-        address: '',
-      },
-      success: function (res) {
-        that.setData({ isPlusChild: false, photoPath: '/assets/tabs/avatar.png'})
-        that.onLoad()
+
+    const filePath = this.data.photoPath
+    const name = Math.random() * 1000000
+    const cloudPath = name + filePath.match(/\.[^.]+?$/)[0]
+    wx.cloud.uploadFile({
+      cloudPath, //云存储图片名字
+      filePath, //临时路径
+      success: res => {
+        const db = wx.cloud.database()
+        db.collection('kids').add({
+          // data 字段表示需新增的 JSON 数据
+          data: {
+            kid_photo: res.fileID,
+            kid_name: that.data.inputName,
+            kid_gender: that.data.inputGender,
+            kid_age: that.data.inputAge,
+            isLost: false,
+            address: that.data.address,
+            lostClue: ''
+          },
+          success: function (res) {
+
+            that.setData({
+              isPlusChild: false,
+              photoPath: '/assets/tabs/avatar.png',
+              inputName: '',
+              inputGender: '',
+              inputAge: ''
+            })
+            that.onLoad()
+          }
+        })
       }
     })
   },
@@ -115,17 +166,32 @@ Page({
 //增加主要家庭成员
   addAdultHandle: function () {
     if (this.data.photoPath == '/assets/tabs/avatar.png' || !this.data.inputRelation) return
-    const db = wx.cloud.database()
+
     const that = this
-    db.collection('adults').add({
-      // data 字段表示需新增的 JSON 数据
-      data: {
-        photo: that.data.photoPath,
-        relation: that.data.inputRelation,
-      },
-      success: function (res) {
-        that.setData({ isPlusAdult: false, photoPath: '/assets/tabs/avatar.png' })
-        that.onLoad()
+
+    const filePath = this.data.photoPath
+    const name = Math.random() * 1000000
+    const cloudPath = name + filePath.match(/\.[^.]+?$/)[0]
+    wx.cloud.uploadFile({
+      cloudPath, //云存储图片名字
+      filePath, //临时路径
+      success: res => {
+        const db = wx.cloud.database()
+        db.collection('adults').add({
+          // data 字段表示需新增的 JSON 数据
+          data: {
+            photo: res.fileID,
+            relation: that.data.inputRelation,
+          },
+          success: function (res) {
+            that.setData({
+              isPlusAdult: false,
+              photoPath: '/assets/tabs/avatar.png',
+              inputRelation: ''
+            })
+            that.onLoad()
+          }
+        })
       }
     })
   },
@@ -168,13 +234,59 @@ Page({
     })
   },
 
+  //删除孩子
+  isDeleteChildHandle: function (e) {
+    var index = e.currentTarget.dataset.index
+    var _id = this.data.kids[index]._id
+    this.setData({ isDeleteChild: true, _id: _id })
+  },
+
+  deleteChildHandle: function () {
+    const that = this
+    const db = wx.cloud.database()
+    db.collection('kids').doc(that.data._id).remove({
+      success: function (res) {
+        that.setData({ isDeleteChild: false })
+        that.onLoad()
+      }
+    })
+  },
+
+  notDeleteChildHandle: function () {
+    this.setData({ isDeleteChild: false })
+  },
+
+  //删除亲属
+  isDeleteAdultHandle: function (e) {
+    var index = e.currentTarget.dataset.index
+    var _id = this.data.families[index]._id
+    this.setData({ isDeleteAdult: true, _id: _id })
+  },
+
+  deleteAdultHandle: function () {
+    const that = this
+    const db = wx.cloud.database()
+    db.collection('adults').doc(that.data._id).remove({
+      success: function (res) {    
+        that.setData({ isDeleteAdult: false })
+        that.onLoad()
+      }
+    })
+  },
+
+  notDeleteAdultHandle: function () {
+    this.setData({ isDeleteAdult: false })
+  },
+
+
+
   
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.onGetOpenid()
+    this.loadInfo()
     const that = this
     const db = wx.cloud.database()
 
@@ -209,7 +321,8 @@ Page({
           for(var i=0;i<res.data.length;i++){
             families.push({
               photo: res.data[i].photo,
-              relation: res.data[i].relation
+              relation: res.data[i].relation,
+              _id: res.data[i]._id
             })
           }
           that.setData({ families: families })

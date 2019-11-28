@@ -1,25 +1,3 @@
-<view class="messages" wx:if= "{{ selfislost }}">
-  <view class="title">
-    自寻
-  </view>
-	<view class="message" 
-  bindtap="editHandle" 
-  wx:for= "{{ mykids }}" 
-  data-index= "{{ index }}" >
-
-		<image src= "{{ item.photo }}" mode="aspectFill"></image>
-		<view class="messageDetail">
-			<view class="groupName">
-				<text>{{ item.name }}</text>
-			</view>
-      <view class="groupMessage">
-				<text>点击以查看/编辑</text>
-			</view>
-		</view>
-
-	</view>
-</view>
-
 <view class="messages">
   <view class="title">
     帮寻

@@ -28,17 +28,15 @@ Page({
    */
   onLoad: function (options) {
     var kid_id = options._id
+    var kid_openid = options._openid
     var cat = options.cat
     const that = this
     const db = wx.cloud.database()
 
     //获取孩子信息
     db.collection('kids').where({
-      // _openid: app.globalData.openid,
-      // _id: kid_id
-
-      _openid: 'oy3xa5NygQNks2vtLLV7vLbzwiWk',
-      _id: '73ecda94-8ee9-4721-8db4-db0441e1bbac'
+      _openid: kid_openid,
+      _id: kid_id
     })
       .get({
         success: function (res) {
@@ -55,13 +53,13 @@ Page({
       })
 
     //获取家庭关系
+    console.log(kid_openid)
     db.collection('adults').where({
-      // _openid: app.globalData.openid
-
-      _openid: 'oy3xa5NygQNks2vtLLV7vLbzwiWk',
+      _openid: kid_openid
     })
       .get({
         success: function (res) {
+          console.log(res.data)
           const families = []
           for (var i = 0; i < res.data.length; i++) {
             families.push({
