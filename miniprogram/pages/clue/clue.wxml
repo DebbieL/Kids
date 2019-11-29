@@ -4,6 +4,11 @@
   placeholder="请尽可能详细地描述您的孩子失踪时体型及外貌特点……" 
   value="{{ inputClue }}"
   bindinput="inputClueHandle"></textarea>
+  <view class= "title">提供失踪儿童信息</view>
+  <input type="text" 
+  placeholder="您的联系方式……" 
+  value="{{ inputPhone }}"
+  bindchange="inputPhoneHandle"></input>
 </view>
 <view class="submit">
   <button bindtap="isSave">保存</button>

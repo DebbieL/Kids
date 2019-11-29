@@ -5,6 +5,7 @@ Page({
    */
   data: {
     inputClue:'',
+    inputPhone: '',
     isSave: false,
     _id:''
   },
@@ -13,16 +14,21 @@ Page({
     this.setData({ inputClue: e.detail.value })
   },
 
+  inputPhoneHandle: function (e) {
+    this.setData({ inputPhone: e.detail.value })
+  },
+
   //保存输入的内容至数据库
   isSave: function() {
-    if(this.data.inputClue == '') return
+    if(this.data.inputClue == '' || this.data.inputPhone == '') return
     const that = this
     const db = wx.cloud.database()
 
     db.collection('kids').doc(this.data._id).update({
       // data 传入需要局部更新的数据
       data: {
-        lostClue: that.data.inputClue
+        lostClue: that.data.inputClue,
+        contact: that.data.inputPhone
       },
       success: function (res) {
         that.setData({ isSave: true })

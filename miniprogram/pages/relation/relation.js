@@ -136,7 +136,8 @@ Page({
             kid_longitude: that.data.longitude,
             isLost: false,
             address: that.data.address,
-            lostClue: ''
+            lostClue: '',
+            contact:''
           },
           success: function (res) {
 

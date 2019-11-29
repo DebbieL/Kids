@@ -13,9 +13,9 @@ Page({
     gender: '',
     age:'',
     lostclue: '',
+    contact: '',
     families:[],
     category:'2',
-    localPhoto: '/assets/tabs/takephoto.png',
     lp64: '',
     takePhoto1: '/assets/tabs/takephoto.png',
     tp164: '',
@@ -23,28 +23,12 @@ Page({
     tp264: '',
     isShowScore: false,
     score: 0,
+    status: '',
   },
 
   editHandle: function () {
     wx.navigateTo({
       url: '../clue/clue?_id=' + this.data._id + '&lostclue=' + this.data.lostclue ,
-    })
-  },
-
-
-
-  uploadPhoto: function () {
-    var that = this
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success(res) {
-        // tempFilePath可以作为img标签的src属性显示图片
-        const tempFilePaths = res.tempFilePaths[0]
-        var imgbase = wx.getFileSystemManager().readFileSync(tempFilePaths, "base64")
-        that.setData({ localPhoto: tempFilePaths, lp64: imgbase })
-      }
     })
   },
 
@@ -78,39 +62,77 @@ Page({
     })
   },
 
-  faceAIHandle:function () {
-    const tencentcloud = require("../../tencentcloud-sdk-nodejs-3.0.102");
+  againHandle1: function () {
+    this.setData({ score: 0 })
+  },
 
+  againHandle2: function () {
+    this.setData({ status: '' })
+  },
 
-    const IaiClient = tencentcloud.iai.v20180301.Client;
-    const models = tencentcloud.iai.v20180301.Models;
+  faceAIHandle1:function () {
+    //调用云函数，传两个值，两张照片的base64
+    const that = this
 
-    const Credential = tencentcloud.common.Credential;
-    const ClientProfile = tencentcloud.common.ClientProfile;
-    const HttpProfile = tencentcloud.common.HttpProfile;
-
-    let cred = new Credential("AKIDQrGbCgBJXdcDKKsxgN0czX4XxKcru3Rs", "eGqTckLn8MXfgcQCxfMymZMVdkdVfFoM");
-    let httpProfile = new HttpProfile();
-    httpProfile.endpoint = "iai.tencentcloudapi.com";
-    let clientProfile = new ClientProfile();
-    clientProfile.httpProfile = httpProfile;
-    let client = new IaiClient(cred, "", clientProfile);
-
-    let req = new models.CompareFaceRequest();
-
-    let params = '{"ImageA":"' + this.data.lp64 + '","ImageB":"' + this.data.tp164 + '"}'
-    req.from_json_string(params);
-
-
-    client.CompareFace(req, function (errMsg, response) {
-
-      if (errMsg) {
-        console.log(errMsg);
-        return;
+    wx.cloud.downloadFile({
+      fileID: that.data.photo,
+      success: res => {
+        const lp64 = wx.getFileSystemManager().readFileSync(res.tempFilePath, "base64")
+        wx.cloud.callFunction({
+          name: 'face',
+          data: {
+            image1: lp64,
+            image2: that.data.tp164
+          }
+        })
+          .then((res) => {
+            console.log(res.result.facea.Score.toFixed(3))
+            const score = res.result.facea.Score.toFixed(3)
+            that.setData({ score: score })
+          })
+      },
+      fail: err => {
+        // handle error
       }
+    })
+    
+  },
 
-      console.log(response.to_json_string());
-    });
+  faceAIHandle2: function () {
+    //调用云函数，传两个值，两张照片的base64
+    const that = this
+    const families = that.data.families
+
+    for (var i = 0; i < families.length; i++){
+      const photobase64 = ''
+      const status = families[i].relation
+      wx.cloud.downloadFile({
+        fileID: families[i].photo, 
+        success: res => {
+          photobase64 = wx.getFileSystemManager().readFileSync(res.tempFilePath, "base64")
+          wx.cloud.callFunction({
+            name: 'face',
+            data: {
+              image1: that.data.tp264,
+              image2: photobase64
+            }
+          })
+            .then((res) => {
+              console.log(res.result.facea.Score.toFixed(3))
+              const score = res.result.facea.Score.toFixed(3)
+              if (score >= 70) {
+                that.setData({ status: status })
+              }
+              else {
+                that.setData({ status: '身份可疑（请致电走失儿童的家长）' })
+              }
+            })
+        },
+        fail: console.error
+      })
+      
+      
+    } 
   },
 
   /**
@@ -137,7 +159,8 @@ Page({
              gender: res.data[0].kid_gender,
              age: res.data[0].kid_age,
              lostclue: res.data[0].lostClue,
-             category: cat
+             contact: res.data[0].contact,
+             category: cat,
              })
         }
       })

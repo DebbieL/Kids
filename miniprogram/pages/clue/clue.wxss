@@ -17,6 +17,15 @@ page {
 	box-shadow: 0 0 5rpx #F4A460;
 }
 
+.content input {
+  width: 90%;
+  margin: 20rpx;
+	padding: 20rpx;
+	border: 1rpx solid #F4A460;
+	border-radius: 5rpx;
+	box-shadow: 0 0 5rpx #F4A460;
+}
+
 .submit {
   display: flex;
   flex-direction: row;

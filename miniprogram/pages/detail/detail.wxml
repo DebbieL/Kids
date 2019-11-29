@@ -43,11 +43,6 @@
     <text>AI人脸识别辅助</text>
 	  <image src= "/assets/tabs/scanning.png"></image>
   </view>
-	
-  <view class="chooseLocal">
-    <text>请上传一张失踪儿童近期照片</text>
-    <image src="{{ localPhoto }}" bindtap="uploadPhoto" mode="aspectFill"></image>
-  </view>
 
   <view class="takePhoto">
     <text>请对疑似失踪的儿童拍照</text>
@@ -56,8 +51,11 @@
 
   <view class="showScore" wx:if= "{{ isShowScore }}">
     <text>人脸相似度打分：</text>
-    <text class="score" wx:if= "{{ score == 0 }}" bindtap="faceAIHandle">打分</text>
-    <text class="score" wx:else>{{ score }}</text>
+    <text class="score" wx:if= "{{ score == 0 }}" bindtap="faceAIHandle1">打分</text>
+    <view wx:else>
+      <text class="score" wx:if= "{{ score != 0 }}">{{ score }}</text>
+      <text class="score" wx:if= "{{ score <= 50 }}" bindtap= "againHandle1">重拍</text>
+    </view>
   </view>
 
   <view class="takePhoto" wx:if= "{{ score >= 70 }}">
@@ -65,14 +63,20 @@
     <image src="{{ takePhoto2 }}" bindtap="takePhoto2" mode="aspectFill"></image>
   </view>
 
-  <view class="showScore" wx:if= "{{ score >= 70 }}">
+  <view class="showStatus" wx:if= "{{ score >= 70 &&  takePhoto2 != '/assets/tabs/takephoto.png'}}">
     <text>分析身份：</text>
-    <text class="score"></text>
+    <text class="status" wx:if= "{{ status == '' }}" bindtap="faceAIHandle2">分析</text>
+    <text class="status" wx:if= "{{ status != '' && status != '身份可疑（请致电走失儿童的家长）'}}">孩子的{{ status }}，非可疑人士</text>
+    <view wx:if= "{{ status == '身份可疑（请致电走失儿童的家长）' }}">
+      <text class="status">{{ status }}</text>
+      <text class="status" bindtap="againHandle2">重拍</text>
+    </view>
+    
   </view>
   
 
-  <view class="help" wx:if= "{{ score >= 70 }}">
-    <text>您提供的线索有效，请致电失踪儿童家长，以告知线索！联系方式：</text>
+  <view class="help" wx:if= "{{ status == '身份可疑（请致电走失儿童的家长）' }}">
+    <text>您提供的线索有效，请致电失踪儿童家长，以告知线索！联系方式：{{ contact }}</text>
   </view>
 
 </view>
