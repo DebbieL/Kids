@@ -20,7 +20,13 @@
 
 	</view>
   <view class="nomessage" wx:if= "{{ !othersisLost }}">
-    没有失踪的儿童
+    暂无失踪的儿童
   </view>
-
 </view>
+
+  <view class="toLogin">
+    <text class="notify">这是一个互助寻人小程序</text>
+    <text class="notify">在这里您可以查看已经发布的儿童失踪信息，并提供线索</text>
+    <text class="notify">登录，为自己的孩子做信息备份，同时可发布寻人启事</text>
+    <button bindtap="switchLoginHandle">登录</button>
+  </view>

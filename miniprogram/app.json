@@ -1,11 +1,12 @@
 {
   "pages": [
+    "pages/view/view",
     "pages/login/login",
     "pages/relation/relation",
     "pages/message/message",
     "pages/detail/detail",
-    "pages/clue/clue",
-    "pages/view/view"
+    "pages/clue/clue"
+    
   ],
   "permission": {
     "scope.userLocation": {

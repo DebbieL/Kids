@@ -65,18 +65,18 @@
 
   <view class="showStatus" wx:if= "{{ score >= 70 &&  takePhoto2 != '/assets/tabs/takephoto.png'}}">
     <text>分析身份：</text>
-    <text class="status" wx:if= "{{ status == '' }}" bindtap="faceAIHandle2">分析</text>
-    <text class="status" wx:if= "{{ status != '' && status != '身份可疑（请致电走失儿童的家长）'}}">孩子的{{ status }}，非可疑人士</text>
-    <view wx:if= "{{ status == '身份可疑（请致电走失儿童的家长）' }}">
-      <text class="status">{{ status }}</text>
+    <text class="status" wx:if= "{{ status == '' && count == 0}}" bindtap="faceAIHandle2">分析</text>
+    <text class="status" wx:if= "{{ anyScore != 0 }}">孩子的{{ status }}，非可疑人士</text>
+    <view wx:if= "{{ count == families.length }}">
+      <text class="status">身份可疑（请致电走失儿童的家长)</text>
       <text class="status" bindtap="againHandle2">重拍</text>
     </view>
     
   </view>
   
 
-  <view class="help" wx:if= "{{ status == '身份可疑（请致电走失儿童的家长）' }}">
-    <text>您提供的线索有效，请致电失踪儿童家长，以告知线索！联系方式：{{ contact }}</text>
+  <view class="help" wx:if= "{{ count == families.length }}">
+    <text>您可能发现了该失踪儿童，请致电失踪儿童家长，以告知线索！联系方式：{{ contact }}</text>
   </view>
 
 </view>

@@ -24,6 +24,8 @@ Page({
     isShowScore: false,
     score: 0,
     status: '',
+    anyScore: 0,
+    count: 0
   },
 
   editHandle: function () {
@@ -37,7 +39,7 @@ Page({
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
+      sourceType: ['camera'],
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
         const tempFilePaths = res.tempFilePaths[0]
@@ -52,7 +54,7 @@ Page({
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
+      sourceType: ['camera'],
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
         const tempFilePaths = res.tempFilePaths[0]
@@ -67,7 +69,7 @@ Page({
   },
 
   againHandle2: function () {
-    this.setData({ status: '' })
+    this.setData({ status: '', count: 0 })
   },
 
   faceAIHandle1:function () {
@@ -102,10 +104,14 @@ Page({
     //调用云函数，传两个值，两张照片的base64
     const that = this
     const families = that.data.families
+    
 
+    
     for (var i = 0; i < families.length; i++){
+
       const photobase64 = ''
       const status = families[i].relation
+      
       wx.cloud.downloadFile({
         fileID: families[i].photo, 
         success: res => {
@@ -121,17 +127,16 @@ Page({
               console.log(res.result.facea.Score.toFixed(3))
               const score = res.result.facea.Score.toFixed(3)
               if (score >= 70) {
-                that.setData({ status: status })
+                that.setData({ status: status, anyScore: score})
               }
-              else {
-                that.setData({ status: '身份可疑（请致电走失儿童的家长）' })
+              else{
+                const count = that.data.count +1
+                that.setData({ count: count })
               }
             })
         },
         fail: console.error
       })
-      
-      
     } 
   },
 
